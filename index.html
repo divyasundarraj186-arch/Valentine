@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 { 
+            color: #d63384; 
+            font-size: 2.2rem; 
+            margin: 20px 0; 
+            background: none; /* Removes any potential background */
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            width: 100%;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            transition: transform 0.2s ease;
+            z-index: 1000;
+        }
+
+        #noBtn {
+            background-color: #888;
+            color: white;
+            position: relative;
+            transition: 0.1s ease-out;
+            z-index: 999;
+        }
+
+        .rose-img {
+            width: 250px;
+            height: auto;
+            /* No borders, no boxes, just the image */
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="http://googleusercontent.com/image_collection/image_retrieval/10855086624085900224_0" alt="Rose" class="rose-img">
+    
+    <h1 id="question">Will you be my Valentine? 💖</h1>
+    
+    <div class="buttons">
+        <button id="yesBtn" onclick="celebrate()">YES!</button>
+        <button id="noBtn" onmouseover="moveButton()">No</button>
+    </div>
+
+    <script>
+        let yesScale = 1;
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.position = 'absolute';
+
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            yesScale += 0.5;
+            document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
+        }
+
+        function celebrate() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Replaces everything with simple text and a celebratory gif
+            document.body.innerHTML = `
+                <h1 style="font-size: 3rem;">Yay! See you on the 14th! 🌹✨</h1>
+                <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZkMnE5Zjh3Nmh2OHB2eXh5eHh5eHh5eHh5eHh5eHh5eHh5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lTjJpS9nS/giphy.gif" style="width:250px;">
+                <p>I love you! ❤️</p>
+            `;
+            document.body.style.backgroundColor = "#ffccd5";
+        }
+    </script>
+</body>
+</html>
