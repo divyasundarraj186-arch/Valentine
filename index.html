@@ -17,16 +17,19 @@
             overflow: hidden;
             text-align: center;
         }
+
         .container { z-index: 10; padding: 20px; }
-        h1 { color: #d63384; font-size: 2.5rem; }
+        h1 { color: #d63384; font-size: 2rem; margin: 20px 0; }
+
         .buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
             align-items: center;
-            margin-top: 30px;
-            min-height: 200px;
+            margin-top: 20px;
+            min-height: 150px;
         }
+
         button {
             padding: 15px 30px;
             font-size: 1.2rem;
@@ -36,70 +39,73 @@
             font-weight: bold;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        #yesBtn {
-            background-color: #ff4d6d;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-        #noBtn {
-            background-color: #888;
-            color: white;
-            position: relative;
-        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; transition: 0.2s; }
+        #noBtn { background-color: #888; color: white; position: relative; }
+
         .gif { width: 250px; border-radius: 20px; }
+
+        /* Simple Falling Heart Animation */
+        .heart {
+            position: fixed;
+            top: -10%;
+            font-size: 24px;
+            animation: fall 3s linear forwards;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" id="content">
+    <div id="main-content">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG53dnB0ZzR3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Cat" class="gif">
         <h1 id="question">Will you be my Valentine? 💖</h1>
         <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">YES!</button>
-            <button id="noBtn" onmouseover="moveButton()">No</button>
+            <button id="yesBtn" onclick="handleYes()">YES!</button>
+            <button id="noBtn" onmouseover="moveNo()">No</button>
         </div>
     </div>
 
     <script>
-        let yesScale = 1;
-        const phrases = ["Are you sure?", "Think again!", "Pleeaaasseee?", "Don't do this!", "I'm gonna cry..."];
+        let scale = 1;
 
-        function moveButton() {
+        function moveNo() {
             const noBtn = document.getElementById('noBtn');
-            const question = document.getElementById('question');
-            
             noBtn.style.position = 'absolute';
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
 
-            question.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-
-            yesScale += 0.4;
-            document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
+            scale += 0.4;
+            document.getElementById('yesBtn').style.transform = `scale(${scale})`;
         }
 
-        function celebrate() {
-            // SAFE CONFETTI: It only runs if the library loaded correctly
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
+        function handleYes() {
+            // 1. Create Heart Rain
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(heart);
+                }, i * 100);
             }
 
-            // This part runs NO MATTER WHAT
-            document.getElementById('content').innerHTML = `
-                <h1 style="color: #d63384; font-size: 3rem;">Yayyyyyy! I Love You! 🌹✨</h1>
-                <p style="font-size: 1.5rem; color: #ff4d6d; font-weight: bold; margin-top:20px;"> ❤️ ❤️ ❤️ ❤️ ❤️</p>
+            // 2. Change the Screen
+            document.getElementById('main-content').innerHTML = `
+                <h1 style="color: #d63384; font-size: 2.5rem;">Yayyyyyy! ❤️</h1>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG53dnB0ZzR3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lTjJpS9nS/giphy.gif" class="gif">
+                <p style="font-size: 1.5rem; color: #ff4d6d; font-weight: bold; margin-top:20px;">I love you! See you soon! 🌹</p>
             `;
             document.body.style.backgroundColor = "#ffccd5";
         }
     </script>
 </body>
 </html>
-
-
-
