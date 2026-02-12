@@ -29,7 +29,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 30px;
-            min-height: 200px; /* Space for the growing button */
+            min-height: 200px;
         }
 
         button {
@@ -38,6 +38,7 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
+            font-weight: bold;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
@@ -50,10 +51,10 @@
         #noBtn {
             background-color: #888;
             color: white;
-            position: relative; /* Starts in the flow, then becomes absolute in JS */
+            position: relative;
         }
 
-        .gif { width: 200px; border-radius: 20px; }
+        .gif { width: 250px; border-radius: 20px; }
     </style>
 </head>
 <body>
@@ -82,7 +83,6 @@
             const noBtn = document.getElementById('noBtn');
             const question = document.getElementById('question');
             
-            // Switch to absolute positioning so it can fly away
             noBtn.style.position = 'absolute';
 
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -91,25 +91,24 @@
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
 
-            // Change the text to be persuasive
             const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             question.innerText = randomPhrase;
 
-            // Make YES bigger
             yesScale += 0.3;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
         }
 
         function celebrate() {
-            // Trigger Confetti
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ffccd5', '#ffffff', '#d63384']
-            });
+            // Check if confetti library is loaded
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff4d6d', '#ffccd5', '#ffffff', '#d63384']
+                });
+            }
 
-            // Change UI
             document.getElementById('content').innerHTML = `
                 <h1 style="color: #d63384; font-size: 3rem;">Yayyyyyy! I Love You! 🌹✨</h1>
                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG53dnB0ZzR3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lTjJpS9nS/giphy.gif" class="gif">
