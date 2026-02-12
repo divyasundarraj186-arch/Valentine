@@ -8,7 +8,7 @@ A special interactive web page created for a very favorite person.
 
 ### 🌹 Preview
 <p align="center">
-  <img src="http://googleusercontent.com/image_collection/image_retrieval/10855086624085900224_0" width="300" alt="Rose Preview">
+  <img src="https://unsplash.com/photos/a-large-red-flower-on-a-red-background-koldMzng1JU" width="300" alt="Rose Preview">
 </p>
 
 ### ✨ How to use:
