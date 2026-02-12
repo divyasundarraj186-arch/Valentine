@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>Be My Valentine? ❤️</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -17,80 +17,72 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             text-align: center;
+            transition: background 0.5s;
         }
 
-        h1 { 
-            color: #d63384; 
-            font-size: 2.2rem; 
-            margin: 20px 0; 
-            background: none; /* Removes any potential background */
-        }
+        .container { z-index: 10; }
+        h1 { color: #d63384; font-size: 2.5rem; transition: 0.3s; }
 
         .buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
             align-items: center;
-            min-height: 200px;
-            width: 100%;
+            margin-top: 30px;
+            min-height: 200px; /* Space for the growing button */
         }
 
         button {
-            padding: 15px 35px;
+            padding: 15px 30px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
-            transition: transform 0.2s ease;
-            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #noBtn {
             background-color: #888;
             color: white;
-            position: relative;
-            transition: 0.1s ease-out;
-            z-index: 999;
+            position: relative; /* Starts in the flow, then becomes absolute in JS */
         }
 
-        .rose-img {
-            width: 250px;
-            height: auto;
-            /* No borders, no boxes, just the image */
-        }
-
-        p {
-            font-size: 1.5rem;
-            color: #ff4d6d;
-            font-weight: bold;
-        }
+        .gif { width: 200px; border-radius: 20px; }
     </style>
 </head>
 <body>
 
-   <img src=" https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop" alt="Rose" class="rose-img">
-
-   
-    
-    <h1 id="question">Will you be my Valentine? 💖</h1>
-    
-    <div class="buttons">
-        <button id="yesBtn" onclick="celebrate()">YES!</button>
-        <button id="noBtn" onmouseover="moveButton()">No</button>
+    <div class="container" id="content">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG53dnB0ZzR3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Cat" class="gif" id="catGif">
+        <h1 id="question">Will you be my Valentine? 💖</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">YES!</button>
+            <button id="noBtn" onmouseover="moveButton()">No</button>
+        </div>
     </div>
 
     <script>
         let yesScale = 1;
+        let phrases = [
+            "Are you sure?", 
+            "Think again!", 
+            "Pleeaaasseee?", 
+            "Surely you misspoke!", 
+            "Don't do this to me :(", 
+            "I'm gonna cry..."
+        ];
 
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
+            const question = document.getElementById('question');
+            
+            // Switch to absolute positioning so it can fly away
             noBtn.style.position = 'absolute';
 
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -99,26 +91,32 @@
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
 
-            yesScale += 0.5;
+            // Change the text to be persuasive
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            question.innerText = randomPhrase;
+
+            // Make YES bigger
+            yesScale += 0.3;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
         }
 
         function celebrate() {
+            // Trigger Confetti
             confetti({
                 particleCount: 150,
                 spread: 70,
-                origin: { y: 0.6 }
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ffccd5', '#ffffff', '#d63384']
             });
 
-            // Replaces everything with simple text and a celebratory gif
-            document.body.innerHTML = `
-                <h1 style="font-size: 3rem;">Yayyyy! I LOVE YOU 🌹✨</h1>
-                <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZkMnE5Zjh3Nmh2OHB2eXh5eHh5eHh5eHh5eHh5eHh5eHh5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lTjJpS9nS/giphy.gif" style="width:250px;">
-                <p>I love you! ❤️</p>
+            // Change UI
+            document.getElementById('content').innerHTML = `
+                <h1 style="color: #d63384; font-size: 3rem;">Yayyyyyy! I Love You! 🌹✨</h1>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG53dnB0ZzR3eHh3eHh3eHh3eHh3eHh3eHh3eHh3eHh3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/l41lTjJpS9nS/giphy.gif" class="gif">
+                <p style="font-size: 1.5rem; color: #ff4d6d; font-weight: bold; margin-top:20px;">I love you! ❤️</p>
             `;
             document.body.style.backgroundColor = "#ffccd5";
         }
     </script>
 </body>
-
 </html>
